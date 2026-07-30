@@ -20,7 +20,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     super.dispose();
   }
 
-forgotPassword() async {
+Future<void> forgotPassword() async {
   try {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: _forgotPassword.text,);
     ScaffoldMessenger.of(context).showSnackBar(

@@ -17,7 +17,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _obscurePassword = true;
+  final bool _obscurePassword = true;
 
   @override
   void dispose() {
@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  signIn()async{
+  Future <void>signIn()async{
     await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
   }
 
@@ -54,8 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Icon(Icons.spa_outlined,size: 60,color: Colors.black87,),
               
                   const SizedBox(height: 24),
-                   Text(
-                    'Welcome back, you have been missed!',
+                   Text('Welcome back, you have been missed!',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.cormorantGaramond(fontSize: 20,color: Colors.grey[700],fontWeight: FontWeight.w500),
                   ),
@@ -86,8 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         Navigator.push(context,MaterialPageRoute(builder:(context)=> const ForgotPassword()));
                       },
-                      child:  Text(
-                        'Forgot Password?',
+                      child:  Text('Forgot Password?',
                         style: GoogleFonts.cormorantGaramond(fontSize: 16,color: Colors.grey[700],fontWeight: FontWeight.w500),
                       ),
                     ),
@@ -151,11 +149,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,MaterialPageRoute(builder: (context) => const SignupScreen(),),
-                          );
+                          Navigator.push(context,MaterialPageRoute(builder: (context) => const SignupScreen(),),);
                         },
-                        child:  Text('Register now',
+                        child: Text('Register now',
                            style: GoogleFonts.cormorantGaramond(color: Colors.blue,fontSize: 15,fontWeight: FontWeight.w700),
                         ),
                       ),

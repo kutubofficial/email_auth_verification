@@ -19,21 +19,22 @@ class _HomepageState extends State<Homepage> {
     fetchUserData();
   }
 
-   fetchUserData() async {
+   Future<void> fetchUserData() async {
     DocumentSnapshot doc = await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).get();
 
     setState(() {
       name = doc['name'];
     });
   }
-  signout()async{
+  Future<void> signout()async{
     await FirebaseAuth.instance.signOut();
   }
-
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: Text('Home Screen'),),
+      appBar: AppBar(title: Text('Home Screen'),
+      backgroundColor: Colors.white, elevation: 0,),
       body: Center(
         child: Column(
           children: [

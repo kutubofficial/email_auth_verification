@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:login_signup/authentication/login.dart';
 import 'package:login_signup/authentication/wrapper.dart';
 import 'package:login_signup/widgets/custom_text_field.dart';
 import 'package:login_signup/widgets/social_buttons.dart';
@@ -21,23 +20,26 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
-// signup()async{
-//   await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
-//   Get.offAll(Wrapper());
-// }
-signup() async {
-  UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
 
-  await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
-    'name': _nameController.text,
-    'email': _emailController.text,
-    'createdAt': FieldValue.serverTimestamp(),
-  });
+Future<void> signup() async {
+  try {
+    UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
 
-  Get.offAll(Wrapper());
+    await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+      'name': _nameController.text,
+      'email': _emailController.text,
+      'createdAt': FieldValue.serverTimestamp(),
+    });
+
+    Get.offAll(Wrapper());
+  } on FirebaseAuthException catch (e) {
+    Get.snackbar('Signup failed', e.message ?? 'Something went wrong');
+  } catch (e) {
+    Get.snackbar('Error', e.toString());
+  }
 }
 
   @override
@@ -121,14 +123,13 @@ signup() async {
                   child: ElevatedButton(
                     onPressed: (){
                       signup();
-                      Navigator.push(context,MaterialPageRoute(builder: (context)=>LoginScreen()));
+                      // Navigator.push(context,MaterialPageRoute(builder: (context)=>LoginScreen()));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12),),
                     ),
-                    child:  Text(
-                      'Sign Up',
+                    child:  Text('Sign Up',
                       style: GoogleFonts.cormorantGaramond(color: Colors.white,fontSize: 19,fontWeight: FontWeight.w500),
                     ),
                   ),
@@ -141,8 +142,7 @@ signup() async {
                     Expanded(child: Divider(color: Colors.grey[400])),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Text(
-                        'Or continue with',
+                      child: Text('Or continue with',
                         style: GoogleFonts.cormorantGaramond(color: Colors.grey[700], fontSize: 15,fontWeight: FontWeight.w500),
                       ),
                     ),
@@ -176,9 +176,7 @@ signup() async {
                       style: GoogleFonts.cormorantGaramond(color: Colors.grey[700],fontSize: 15,fontWeight: FontWeight.w500),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
+                      onTap: ()=> Navigator.pop(context),
                       child: Text('Login now',
                          style: GoogleFonts.cormorantGaramond(color: Colors.blue,fontSize: 15,fontWeight: FontWeight.w700),
                       ),
