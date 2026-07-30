@@ -22,16 +22,6 @@ A modern Flutter authentication application built with **Firebase Authentication
 
 ---
 
-## 📸 Screenshots
-
-> Add screenshots inside a `screenshots/` folder.
-
-| Login | Signup | Email Verification | Home |
-|-------|--------|-------------------|------|
-| ![](screenshots/login.png) | ![](screenshots/signup.png) | ![](screenshots/email_verify.png) | ![](screenshots/home.png) |
-
----
-
 # 📂 Project Structure
 
 ```text
