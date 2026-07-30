@@ -203,7 +203,7 @@ git push origin feature-name
 
 **Kutubuddin Ansari**
 
-GitHub: https://github.com/your-github-kutubofficial
+GitHub: https://github.com/kutubofficial
 
 LinkedIn: https://linkedin.com/in/kutubofficial
 
