@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "683547338798",
+    "project_id": "loginsignup-dcefa",
+    "storage_bucket": "loginsignup-dcefa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:683547338798:android:b214a6eeb480e0fe7b17bf",
+        "android_client_info": {
+          "package_name": "com.example.login_signup"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiF49sF5kyN9QW5kNMeH2OrvHdcPUsNSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
