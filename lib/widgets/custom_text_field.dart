@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
   final Widget? suffixIcon;
   final TextInputType keyboardType;
+  final String? Function(String?)? validator;
 
   const CustomTextField({
     super.key,
@@ -17,12 +18,14 @@ class CustomTextField extends StatelessWidget {
     this.obscureText = false,
     this.suffixIcon,
     this.keyboardType = TextInputType.text,
+    this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controller,
+      validator:validator,
       obscureText: obscureText,
       keyboardType: keyboardType,
       style: GoogleFonts.cormorantGaramond(fontSize: 18,fontWeight: FontWeight.w500,),
@@ -34,6 +37,9 @@ class CustomTextField extends StatelessWidget {
           fontWeight: FontWeight.w500,
           fontStyle: FontStyle.italic,
         ),
+        errorStyle: GoogleFonts.cormorantGaramond(fontSize: 13,color: Colors.red[700]),
+        errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12),borderSide: BorderSide(color: Colors.red[700]!),),
+        focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12),borderSide: BorderSide(color: Colors.red[700]!),),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12),),
         enabledBorder: OutlineInputBorder(
