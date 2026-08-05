@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/get_core.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:login_signup/authentication/login.dart';
 import 'package:login_signup/widgets/custom_text_field.dart';
@@ -13,6 +15,7 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   final TextEditingController _forgotPassword = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -20,16 +23,24 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     super.dispose();
   }
 
+  String? validateEmail(String? value) {
+  if (value == null || value.trim().isEmpty) {
+    return 'Email is required';
+  }
+  final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+  if (!emailRegex.hasMatch(value.trim())) {
+    return 'Enter a valid email address';
+  }
+  return null;
+}
+
 Future<void> forgotPassword() async {
   try {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: _forgotPassword.text,);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Reset link sent! Check your email.')),
-    );
+    Get.snackbar('Message', 'Reset link sent! Check your email.');
   } on FirebaseAuthException catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(e.message ?? 'Something went wrong')),
-    );
+    
+    Get.snackbar('error', e.message  ??' Something went wrong');
   }
 }
 
@@ -45,15 +56,13 @@ Future<void> forgotPassword() async {
         child: SingleChildScrollView(
           physics: NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-      minHeight: MediaQuery.of(context).size.height -MediaQuery.of(context).padding.top -MediaQuery.of(context).padding.bottom,
-    ),
+          child: Form(
+            key: _formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 40),
+                const SizedBox(height: 160),
                 Icon(Icons.lock,size: 60,color: Colors.black87,),
             
                 const SizedBox(height: 24),
@@ -70,6 +79,7 @@ Future<void> forgotPassword() async {
                   hintText: 'Enter your e-mail',
                   icon: Icons.email_outlined,
                   obscureText: false,
+                  validator: validateEmail,
                 ),
                 const SizedBox(height: 32),
             
@@ -78,8 +88,10 @@ Future<void> forgotPassword() async {
                   height: 52,
                   child: ElevatedButton(
                     onPressed: (){
-                      forgotPassword();
+                      if(_formKey.currentState!.validate()){
+                        forgotPassword();
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
